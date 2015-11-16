@@ -6,4 +6,4 @@ Nine Raspberry Pi units will run a web browser and take real-time commands from 
 
 The RP units will display a single webpage: [client.html](https://github.com/saulbaizman/huemenorah/blob/master/client.html). When updates are made to the Firebase database, events will fire in the browser and prompt the browser to load new content.
 
-A tenth RP will hold all of the photos and share them via NFS. It will also run a script, [server.py](https://github.com/saulbaizman/huemenorah/blob/master/server.py), on a periodic basis (via cron) to update the content on the screens.
+A tenth RP will hold all of the photos and share them via NFS. It will also run a script, [server.py](https://github.com/saulbaizman/huemenorah/blob/master/server.py), on a periodic basis (via cron) to update the Firebase database and accordingly the content on the screens.
