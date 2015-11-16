@@ -3,8 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <title>HueMenorah client</title>
+
+    <!-- load Firebase library -->
+
+    <script src="https://cdn.firebase.com/js/client/2.3.1/firebase.js"></script>
+
+    <!-- load jQuery library -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>-->
+
+    <!-- Commands go here. -->
+
+    <script type="text/javascript">
+
+        // CHANGE THE CLIENT ID BELOW
+        var client_id = '0' ; // customize this per client. No duplicates expected!
+
+        var fb_url = 'https://huemenorah.firebaseio.com/' ;
+        var image_folder = 'imagery/' ;
+
+        var myFirebase = new Firebase(fb_url) ;
+
+        var client_details ;
+
+        update_browser_image ( ) ;
+
+        function update_browser_image ( ) {
+
+            jQuery.getJSON( 'test.json', '', function ( response ) {
+                console.log ( 'loading JSON...' ) ;
+//                console.log ( response ) ;
+
+                console.log ( 'getting JSON config for ***CLIENT ' + client_id + '***...' ) ;
+                client_details = response[client_id] ;
+
+                console.log ( 'CLIENT ' + client_id + ' details:' ) ;
+                console.log ( client_details ) ;
+
+                var image_url = client_details.path ;
+                console.log ( 'image_url: ' + image_url ) ;
+
+                // add the image to the DOM
+                var img_html = '<img id="slide" src="' + image_folder + image_url + '" />' ;
+
+//                jQuery('body').append( img_html ) ;
+
+                if ( jQuery('#slide').length ) {
+                    jQuery('#slide').replaceWith( img_html ) ;
+                } else {
+                    jQuery('body').append( img_html ) ;
+                }
+
+
+            // do stuff here.
+//            console.log ('running update_browser_image ( )') ;
+
+
+//            jQuery('body').add( ) ;
+
+//            jQuery('#id').remove( ) ;
+
+            } ) ;
+        }
+
+    </script>
+
 </head>
 <body>
 
+<p><a href="#" id="refresh">update browser image</a></p>
+
+<script type="text/javascript">
+
+    jQuery("#refresh").on( 'click', function ( event ) {
+//                alert('got here.') ;
+                event.preventDefault ( ) ;
+                console.log ( 'updating browser image' ) ;
+                update_browser_image ( ) ;
+            }
+    ) ;
+
+</script>
 </body>
 </html>
