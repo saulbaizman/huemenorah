@@ -77,7 +77,7 @@ When the RP boots, it will need to run the web server and launch the web browser
                             } else {
                                 // Image loaded successfully.
                                 jQuery('body').append( img ) ;                  // add new image to the DOM
-                                jQuery('#img_fg').fadeOut(1000, function () {   // fade out the foreground image
+                                jQuery('#img_fg').delay(delay*1000).fadeOut(1000, function () {   // fade out the foreground image
                                     jQuery('#img_fg').remove();                 // remove the foreground image from the DOM
                                     jQuery('#img_bg').attr('id','img_fg') ;     // make the bg image the new fg image
                                 });
