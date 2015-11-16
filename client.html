@@ -1,3 +1,15 @@
+<!--
+
+This will likely have to be run through an HTTP server.
+
+The RP unit will need to have Python installed and the simpleHTTPServer module.
+
+When the RP boots, it will need to run the web server and launch the web browser, pointed at a specific URL like this:
+
+  http://127.0.0.1:8000/client.html
+
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +17,7 @@
     <title>HueMenorah client</title>
 
     <!-- load Firebase library -->
-
+    
     <script src="https://cdn.firebase.com/js/client/2.3.1/firebase.js"></script>
 
     <!-- load jQuery library -->
@@ -51,7 +63,10 @@
 //                jQuery('body').append( img_html ) ;
 
                 if ( jQuery('#slide').length ) {
-                    jQuery('#slide').replaceWith( img_html ) ;
+                    jQuery('#slide').fadeOut(1000) ;
+
+                    // jQuery('#slide').replaceWith( img_html ) ;
+                    // jQuery('#slide').animate ( { opacity:'1' }, 1000, 'linear' ) ;
                 } else {
                     jQuery('body').append( img_html ) ;
                 }
