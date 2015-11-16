@@ -16,6 +16,23 @@ When the RP boots, it will need to run the web server and launch the web browser
     <meta charset="UTF-8">
     <title>HueMenorah client</title>
 
+    <style type="text/css">
+        body {
+            margin: 0 ;
+        }
+        img {
+            position: absolute;
+            top: 0 ;
+            left: 0 ;
+        }
+        p {
+            margin-top: 500px ;
+        }
+        #img_bg {
+            z-index: -1;
+        }
+    </style>
+
     <!-- load Firebase library -->
     
     <script src="https://cdn.firebase.com/js/client/2.3.1/firebase.js"></script>
@@ -57,28 +74,40 @@ When the RP boots, it will need to run the web server and launch the web browser
                 var image_url = client_details.path ;
                 console.log ( 'image_url: ' + image_url ) ;
 
-                // add the image to the DOM
-                var img_html = '<img id="slide" src="' + image_folder + image_url + '" />' ;
+                // Load new image "under" the current image.
+                // Fade out the foreground image.
+                // Move the new image into the foreground image "spot."
 
-//                jQuery('body').append( img_html ) ;
-
-                if ( jQuery('#slide').length ) {
-                    jQuery('#slide').fadeOut(1000) ;
-
-                    // jQuery('#slide').replaceWith( img_html ) ;
-                    // jQuery('#slide').animate ( { opacity:'1' }, 1000, 'linear' ) ;
-                } else {
-                    jQuery('body').append( img_html ) ;
+                // http://stackoverflow.com/questions/4285042/asychronously-load-images-with-jquery
+                if ( jQuery('#img_fg').length ) {
+                    // Load new image, fade the old one, and swap IDs
+                    var img = jQuery("<img id='img_bg' />").attr('src', image_folder + image_url )
+                            .on('load', function() {
+                                if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                                    console.error('broken image!'); // image did not load correctly!
+                                } else {
+                                    // Image loaded successfully.
+                                    jQuery('body').append( img ) ;                  // add new image to the DOM
+                                    jQuery('#img_fg').fadeOut(1000, function () {   // fade out the foreground image
+                                        jQuery('#img_fg').remove();                 // remove the foreground image from the DOM
+                                        jQuery('#img_bg').attr('id','img_fg') ;     // make the bg image the new fg image
+                                    });
+                                }
+                            });
                 }
+                else {
+                    // Just load an image.
+                    var img = jQuery("<img id='img_fg' />").attr('src', image_folder + image_url )
+                            .on('load', function() {
+                                if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                                    console.error('broken image!'); // image did not load correctly!
+                                } else {
+                                    // Image loaded successfully.
+                                    jQuery('body').append( img );                   // add new image to the DOM
+                                }
+                            });
 
-
-            // do stuff here.
-//            console.log ('running update_browser_image ( )') ;
-
-
-//            jQuery('body').add( ) ;
-
-//            jQuery('#id').remove( ) ;
+                }
 
             } ) ;
         }
@@ -93,7 +122,6 @@ When the RP boots, it will need to run the web server and launch the web browser
 <script type="text/javascript">
 
     jQuery("#refresh").on( 'click', function ( event ) {
-//                alert('got here.') ;
                 event.preventDefault ( ) ;
                 console.log ( 'updating browser image' ) ;
                 update_browser_image ( ) ;
