@@ -11,7 +11,7 @@ debug = True
 
 imagery_directory = 'imagery'
 
-recent_imagery_db = 'recent-imagery.db'
+recent_imagery_db = 'recent-imagery' # no ".db" filename extension
 
 fb_url = 'https://huemenorah.firebaseio.com/'
 
