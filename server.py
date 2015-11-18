@@ -27,22 +27,26 @@ def get_new_images ( recent_db_images, filesystem_images ) :
 
     new_images = []
 
+    mural_tiles = [ 'mural-tile-0.jpg', 'mural-tile-1.jpg', 'mural-tile-2.jpg', 'mural-tile-3.jpg', 'mural-tile-4.jpg', 'mural-tile-5.jpg', 'mural-tile-6.jpg', 'mural-tile-7.jpg', 'mural-tile-8.jpg' ]
+
     while found_image_count < 9:
 
         # choose a random image
         one_image = choice ( filesystem_images )
 
-        # has it been seen recently?
-        if not one_image in recent_db_images:
+        # TODO: add debugging info here
+        # has it been seen recently? is it an image already in the hopper? is it a mural tile?
+        if not one_image in recent_db_images and not one_image in new_images and not one_image in mural_tiles:
             # increment number of found images
             found_image_count += 1
             new_images.append ( one_image )
+            print "added", one_image
         else:
-           continue
+            print "skipped", one_image
+            continue
 
     return new_images
 
-# TODO: TEST THIS LOOP.
 
 from sys import argv #used only for the basename call
 import os
@@ -82,7 +86,6 @@ mode = argv[1]
 # store the choices for future reference
 
 # open database of recently selected images
-
 recently_selected_imagery = shelve.open ( recent_imagery_db )
 
 # test the length of the content in the db
@@ -90,39 +93,75 @@ if len ( recently_selected_imagery ) == 0 :
     # seed the db, if needed, with a key and an empty list
     recently_selected_imagery['images'] = []
 
+# assign the images list to a variable
 recent_db_images = recently_selected_imagery['images']
 
+# get the list of files from the filesystem
 filesystem_images = os.listdir ( imagery_directory )
 
 # TODO: choose the screen mode
 
-# find 9 new images that have not appeared recently
+#mode = 'random' # for testing, assign the mode // comment this line out eventually
 
-new_unseen_images = get_new_images ( recent_db_images, filesystem_images )
+# curl 'https://huemenorah.firebaseio.com/.json?download=myfilename.txt'
+# dowload JSON data
 
-#####
+if mode == 'random':
 
-# TODO: add 'delay' and 'transition' properties
-update = { 'path' : one_image }
+    # find 9 new images that have not appeared recently
 
-# TODO: add authentication
+    new_unseen_images = get_new_images ( recent_db_images, filesystem_images )
 
-# update the database
-fb = firebase.FirebaseApplication( fb_url, None )
+    #####
+    updates = []
+    for image in range ( len ( new_unseen_images ) ):
 
-# TODO: add error checking
-result = fb.patch('/0', update )
+        # TODO: update all screens simultaneously, not one at a time.
 
-# only track the most recent X images
-if len ( recent_db_images ) == recent_imagery_db_limit :
-    # remove oldest record
-    del ( recent_db_images[0] )
+        # TODO: set 'delay' and 'transition' properties
+        update = { 'path' : new_unseen_images[image], 'delay' : '0', 'transition' : 'cross-dissolve' }
+        updates.append ( update )
 
-# add image to recently selected images
-recent_db_images.append ( one_image )
+        # TODO: add authentication
 
-recently_selected_imagery['images'] = recent_db_images
+        # update the database
+        fb = firebase.FirebaseApplication( fb_url, None )
+
+        # TODO: add error checking
+        result = fb.patch('/' + str(image), update )
+
+        # only track the most recent X images
+        if len ( recent_db_images ) == recent_imagery_db_limit :
+            # remove oldest record
+            del ( recent_db_images[0] )
+
+        # add image to recently selected images
+        recent_db_images.append ( new_unseen_images[image] )
+
+        recently_selected_imagery['images'] = recent_db_images
+
+
+#fb = firebase.FirebaseApplication( fb_url, None )
+#print updates
+#result = fb.put('/', updates )
+##result = fb.patch('/', updates )
+
+
+if mode == 'mural':
+    print "mural mode"
+    # more code here
+    screen_count = 9
+
+    for image in range ( screen_count ) :
+        update = { 'path' : 'mural-tile-' + str(image) + '.jpg', 'delay' : '0', 'transition' : 'cross-dissolve' }
+
+        # TODO: turn this code into a function?
+        # update the database
+        fb = firebase.FirebaseApplication( fb_url, None )
+
+        # TODO: add error checking
+        result = fb.patch('/' + str(image), update )
+
 
 recently_selected_imagery.close ( )
-
 
