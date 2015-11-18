@@ -13,5 +13,7 @@ imagery_directory = 'imagery'
 
 recent_imagery_db = 'recent-imagery' # no ".db" filename extension
 
+recent_imagery_db_limit = 50
+
 fb_url = 'https://huemenorah.firebaseio.com/'
 
