@@ -9,7 +9,7 @@ debug = True
 # uncomment to disable debugging
 #debug = False
 
-imagery_directory = 'imagery'
+imagery_directory = 'images'
 
 recent_imagery_db = 'recent-imagery' # no ".db" filename extension
 
