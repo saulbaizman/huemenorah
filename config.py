@@ -17,3 +17,4 @@ recent_imagery_db_limit = 50
 
 fb_url = 'https://huemenorah.firebaseio.com/'
 
+fb_secret = ''
