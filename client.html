@@ -1,12 +1,8 @@
 <!--
 
-This will likely have to be run through an HTTP server.
-
-The RP unit will need to have Python installed and the simpleHTTPServer module.
-
-When the RP boots, it will need to run the web server and launch the web browser, pointed at a specific URL like this:
-
-  http://127.0.0.1:8000/client.html
+Two screen dimensions:
+ _ 768 x 1366
+ _ 900 x 1440
 
 -->
 
@@ -21,16 +17,18 @@ When the RP boots, it will need to run the web server and launch the web browser
             margin: 0 ;
         }
         img {
-            position: absolute;
+            position: fixed;
             top: 0 ;
             left: 0 ;
-        }
-        p {
-            margin-top: 500px ;
-        }
+            min-width: 100%;
+            min-height: 100%;        }
+        /*p {*/
+            /*margin-top: 500px ;*/
+        /*}*/
         #img_bg {
             z-index: -1;
         }
+
     </style>
 
     <!-- load Firebase library -->
