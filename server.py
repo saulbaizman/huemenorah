@@ -29,6 +29,10 @@ def get_new_images ( recent_db_images, filesystem_images ) :
 
     mural_tiles = [ 'mural-tile-0.jpg', 'mural-tile-1.jpg', 'mural-tile-2.jpg', 'mural-tile-3.jpg', 'mural-tile-4.jpg', 'mural-tile-5.jpg', 'mural-tile-6.jpg', 'mural-tile-7.jpg', 'mural-tile-8.jpg' ]
 
+    instructions = 'instructions.jpg'
+
+    credits = 'credits.jpg'
+
     while found_image_count < 9:
 
         # choose a random image
@@ -104,7 +108,7 @@ filesystem_images = os.listdir ( imagery_directory )
 #mode = 'random' # for testing, assign the mode // comment this line out eventually
 
 # curl 'https://huemenorah.firebaseio.com/.json?download=myfilename.txt'
-# dowload JSON data
+# download JSON data
 
 if mode == 'random':
 
