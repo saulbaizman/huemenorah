@@ -1,0 +1,542 @@
+<!--
+
+Two screen dimensions:
+ _ 768 x 1366
+ _ 900 x 1440
+
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HueMenorah Simulator</title>
+
+    <style type="text/css">
+        body {
+            margin: 0 ;
+            height: 300px ;
+            vertical-align: middle;
+            display: table-cell;
+        }
+        img {
+            width: 120px;
+        }
+        #img_fg0, #img_bg0 {
+            position: fixed;
+            top: 0 ;
+            left: 0 ;
+            /* height: 10%;*/
+        }
+        #img_fg1,#img_bg1 {
+            position: fixed;
+            top: 0 ;
+            left: 120px ;
+            /* height: 10%;*/
+        }
+        #img_fg2, #img_bg2 {
+            position: fixed;
+            top: 0 ;
+            left: 240px ;
+            /* height: 10%;*/
+        }
+        #img_fg3, #img_bg3 {
+            position: fixed;
+            top: 0 ;
+            left: 360px ;
+            /* height: 10%;*/
+        }
+        #img_fg4, #img_bg4 {
+            position: fixed;
+            top: 0 ;
+            left: 480px ;
+            /* height: 10%;*/
+        }
+        #img_fg5, #img_bg5 {
+            position: fixed;
+            top: 0 ;
+            left: 600px ;
+            /* height: 10%;*/
+        }
+        #img_fg6, #img_bg6 {
+            position: fixed;
+            top: 0 ;
+            left: 720px ;
+            /* height: 10%;*/
+        }
+        #img_fg7, #img_bg7 {
+            position: fixed;
+            top: 0 ;
+            left: 840px ;
+            /* height: 10%;*/
+        }
+        #img_fg8, #img_bg8 {
+            position: fixed;
+            top: 0 ;
+            left: 960px ;
+            /* height: 10%;*/
+        }
+
+
+        #img_bg0 {
+            z-index: -1;
+        }
+        #img_bg1 {
+            z-index: -1;
+        }
+        #img_bg2 {
+            z-index: -1;
+        }
+        #img_bg3 {
+            z-index: -1;
+        }
+        #img_bg4 {
+            z-index: -1;
+        }
+        #img_bg5 {
+            z-index: -1;
+        }
+        #img_bg6 {
+            z-index: -1;
+        }
+        #img_bg7 {
+            z-index: -1;
+        }
+        #img_bg8 {
+            z-index: -1;
+        }
+
+
+
+    </style>
+
+    <!-- load Firebase library -->
+    
+    <script src="https://cdn.firebase.com/js/client/2.3.1/firebase.js"></script>
+
+    <!-- load jQuery library -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>-->
+
+    <!-- Commands go here. -->
+
+    <script type="text/javascript">
+
+        var fb_url = 'https://huemenorah.firebaseio.com/' ;
+        var image_folder = 'images/' ;
+
+        var image_database = new Firebase(fb_url) ;
+
+            image_database.child( '0' ).on("value", function ( client_setting ) {
+                console.log( 'screen 0 changed.')
+
+                var image_url = client_setting.val().path ;
+                console.log("path: " + image_url);  //
+
+                var transition = client_setting.val().transition ;
+                console.log("transition: " + transition);  //
+
+                var delay = client_setting.val().delay ;
+                console.log("delay: " + delay);  //
+
+                if ( jQuery('#img_fg0' ).length ) {
+                    // Load new image, fade the old one, and swap IDs
+                    var img = jQuery("<img id='img_bg0' />").attr('src', image_folder + image_url )
+                            .on('load', function() {
+                                if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                                    console.error('broken image!'); // image did not load correctly!
+                                } else {
+                                    // Image loaded successfully.
+                                    jQuery('body').append( img ) ;                  // add new image to the DOM
+                                    jQuery('#img_fg0').delay(delay*1000).fadeOut(1000, function () {   // fade out the foreground image
+                                        jQuery('#img_fg0').remove();                 // remove the foreground image from the DOM
+                                        jQuery('#img_bg0').attr('id','img_fg0') ;     // make the bg image the new fg image
+                                    });
+                                }
+                            });
+                }
+
+                else {
+                    // Just load an image.
+                    var img = jQuery("<img id='img_fg0' />").attr('src', image_folder + image_url )
+                            .on('load', function() {
+                                if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                                    console.error('broken image!'); // image did not load correctly!
+                                } else {
+                                    // Image loaded successfully.
+                                    jQuery('body').append( img );                   // add new image to the DOM
+                                }
+                            });
+
+                }
+
+
+            });
+
+        image_database.child( '1' ).on("value", function ( client_setting ) {
+            console.log( 'screen 1 changed.')
+            var image_url = client_setting.val().path ;
+            console.log("path: " + image_url);  //
+
+            var transition = client_setting.val().transition ;
+            console.log("transition: " + transition);  //
+
+            var delay = client_setting.val().delay ;
+            console.log("delay: " + delay);  //
+
+            if ( jQuery('#img_fg1' ).length ) {
+                // Load new image, fade the old one, and swap IDs
+                var img = jQuery("<img id='img_bg1' />").attr('src', image_folder + image_url )
+                        .on('load', function() {
+                            if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                                console.error('broken image!'); // image did not load correctly!
+                            } else {
+                                // Image loaded successfully.
+                                jQuery('body').append( img ) ;                  // add new image to the DOM
+                                jQuery('#img_fg1').delay(delay*1000).fadeOut(1000, function () {   // fade out the foreground image
+                                    jQuery('#img_fg1').remove();                 // remove the foreground image from the DOM
+                                    jQuery('#img_bg1').attr('id','img_fg1') ;     // make the bg image the new fg image
+                                });
+                            }
+                        });
+            }
+
+            else {
+                // Just load an image.
+                var img = jQuery("<img id='img_fg1' />").attr('src', image_folder + image_url )
+                        .on('load', function() {
+                            if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                                console.error('broken image!'); // image did not load correctly!
+                            } else {
+                                // Image loaded successfully.
+                                jQuery('body').append( img );                   // add new image to the DOM
+                            }
+                        });
+
+            }
+
+
+        });
+
+        image_database.child( '2' ).on("value", function ( client_setting ) {
+            console.log( 'screen 2 changed.')
+            var image_url = client_setting.val().path ;
+            console.log("path: " + image_url);  //
+
+            var transition = client_setting.val().transition ;
+            console.log("transition: " + transition);  //
+
+            var delay = client_setting.val().delay ;
+            console.log("delay: " + delay);  //
+
+            if ( jQuery('#img_fg2' ).length ) {
+                // Load new image, fade the old one, and swap IDs
+                var img = jQuery("<img id='img_bg2' />").attr('src', image_folder + image_url )
+                        .on('load', function() {
+                            if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                                console.error('broken image!'); // image did not load correctly!
+                            } else {
+                                // Image loaded successfully.
+                                jQuery('body').append( img ) ;                  // add new image to the DOM
+                                jQuery('#img_fg2').delay(delay*1000).fadeOut(1000, function () {   // fade out the foreground image
+                                    jQuery('#img_fg2').remove();                 // remove the foreground image from the DOM
+                                    jQuery('#img_bg2').attr('id','img_fg2') ;     // make the bg image the new fg image
+                                });
+                            }
+                        });
+            }
+
+            else {
+                // Just load an image.
+                var img = jQuery("<img id='img_fg2' />").attr('src', image_folder + image_url )
+                        .on('load', function() {
+                            if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                                console.error('broken image!'); // image did not load correctly!
+                            } else {
+                                // Image loaded successfully.
+                                jQuery('body').append( img );                   // add new image to the DOM
+                            }
+                        });
+
+            }
+
+
+        });
+
+        image_database.child( '3' ).on("value", function ( client_setting ) {
+            console.log( 'screen 3 changed.')
+            var image_url = client_setting.val().path ;
+            console.log("path: " + image_url);  //
+
+            var transition = client_setting.val().transition ;
+            console.log("transition: " + transition);  //
+
+            var delay = client_setting.val().delay ;
+            console.log("delay: " + delay);  //
+
+            if ( jQuery('#img_fg3' ).length ) {
+                // Load new image, fade the old one, and swap IDs
+                var img = jQuery("<img id='img_bg3' />").attr('src', image_folder + image_url )
+                        .on('load', function() {
+                            if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                                console.error('broken image!'); // image did not load correctly!
+                            } else {
+                                // Image loaded successfully.
+                                jQuery('body').append( img ) ;                  // add new image to the DOM
+                                jQuery('#img_fg3').delay(delay*1000).fadeOut(1000, function () {   // fade out the foreground image
+                                    jQuery('#img_fg3').remove();                 // remove the foreground image from the DOM
+                                    jQuery('#img_bg3').attr('id','img_fg3') ;     // make the bg image the new fg image
+                                });
+                            }
+                        });
+            }
+
+            else {
+                // Just load an image.
+                var img = jQuery("<img id='img_fg3' />").attr('src', image_folder + image_url )
+                        .on('load', function() {
+                            if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                                console.error('broken image!'); // image did not load correctly!
+                            } else {
+                                // Image loaded successfully.
+                                jQuery('body').append( img );                   // add new image to the DOM
+                            }
+                        });
+
+            }
+
+
+        });
+
+        image_database.child( '4' ).on("value", function ( client_setting ) {
+            console.log( 'screen 4 changed.')
+            var image_url = client_setting.val().path ;
+            console.log("path: " + image_url);  //
+
+            var transition = client_setting.val().transition ;
+            console.log("transition: " + transition);  //
+
+            var delay = client_setting.val().delay ;
+            console.log("delay: " + delay);  //
+
+            if ( jQuery('#img_fg4' ).length ) {
+                // Load new image, fade the old one, and swap IDs
+                var img = jQuery("<img id='img_bg4' />").attr('src', image_folder + image_url )
+                        .on('load', function() {
+                            if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                                console.error('broken image!'); // image did not load correctly!
+                            } else {
+                                // Image loaded successfully.
+                                jQuery('body').append( img ) ;                  // add new image to the DOM
+                                jQuery('#img_fg4').delay(delay*1000).fadeOut(1000, function () {   // fade out the foreground image
+                                    jQuery('#img_fg4').remove();                 // remove the foreground image from the DOM
+                                    jQuery('#img_bg4').attr('id','img_fg4') ;     // make the bg image the new fg image
+                                });
+                            }
+                        });
+            }
+
+            else {
+                // Just load an image.
+                var img = jQuery("<img id='img_fg4' />").attr('src', image_folder + image_url )
+                        .on('load', function() {
+                            if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                                console.error('broken image!'); // image did not load correctly!
+                            } else {
+                                // Image loaded successfully.
+                                jQuery('body').append( img );                   // add new image to the DOM
+                            }
+                        });
+
+            }
+
+
+        });
+
+        image_database.child( '5' ).on("value", function ( client_setting ) {
+            console.log( 'screen 5 changed.')
+            var image_url = client_setting.val().path ;
+            console.log("path: " + image_url);  //
+
+            var transition = client_setting.val().transition ;
+            console.log("transition: " + transition);  //
+
+            var delay = client_setting.val().delay ;
+            console.log("delay: " + delay);  //
+
+            if ( jQuery('#img_fg5' ).length ) {
+                // Load new image, fade the old one, and swap IDs
+                var img = jQuery("<img id='img_bg5' />").attr('src', image_folder + image_url )
+                        .on('load', function() {
+                            if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                                console.error('broken image!'); // image did not load correctly!
+                            } else {
+                                // Image loaded successfully.
+                                jQuery('body').append( img ) ;                  // add new image to the DOM
+                                jQuery('#img_fg5').delay(delay*1000).fadeOut(1000, function () {   // fade out the foreground image
+                                    jQuery('#img_fg5').remove();                 // remove the foreground image from the DOM
+                                    jQuery('#img_bg5').attr('id','img_fg5') ;     // make the bg image the new fg image
+                                });
+                            }
+                        });
+            }
+
+            else {
+                // Just load an image.
+                var img = jQuery("<img id='img_fg5' />").attr('src', image_folder + image_url )
+                        .on('load', function() {
+                            if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                                console.error('broken image!'); // image did not load correctly!
+                            } else {
+                                // Image loaded successfully.
+                                jQuery('body').append( img );                   // add new image to the DOM
+                            }
+                        });
+
+            }
+
+
+        });
+
+        image_database.child( '6' ).on("value", function ( client_setting ) {
+            console.log( 'screen 6 changed.')
+            var image_url = client_setting.val().path ;
+            console.log("path: " + image_url);  //
+
+            var transition = client_setting.val().transition ;
+            console.log("transition: " + transition);  //
+
+            var delay = client_setting.val().delay ;
+            console.log("delay: " + delay);  //
+
+            if ( jQuery('#img_fg6' ).length ) {
+                // Load new image, fade the old one, and swap IDs
+                var img = jQuery("<img id='img_bg6' />").attr('src', image_folder + image_url )
+                        .on('load', function() {
+                            if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                                console.error('broken image!'); // image did not load correctly!
+                            } else {
+                                // Image loaded successfully.
+                                jQuery('body').append( img ) ;                  // add new image to the DOM
+                                jQuery('#img_fg6').delay(delay*1000).fadeOut(1000, function () {   // fade out the foreground image
+                                    jQuery('#img_fg6').remove();                 // remove the foreground image from the DOM
+                                    jQuery('#img_bg6').attr('id','img_fg6') ;     // make the bg image the new fg image
+                                });
+                            }
+                        });
+            }
+
+            else {
+                // Just load an image.
+                var img = jQuery("<img id='img_fg6' />").attr('src', image_folder + image_url )
+                        .on('load', function() {
+                            if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                                console.error('broken image!'); // image did not load correctly!
+                            } else {
+                                // Image loaded successfully.
+                                jQuery('body').append( img );                   // add new image to the DOM
+                            }
+                        });
+
+            }
+
+
+        });
+
+        image_database.child( '7' ).on("value", function ( client_setting ) {
+            console.log( 'screen 7 changed.')
+            var image_url = client_setting.val().path ;
+            console.log("path: " + image_url);  //
+
+            var transition = client_setting.val().transition ;
+            console.log("transition: " + transition);  //
+
+            var delay = client_setting.val().delay ;
+            console.log("delay: " + delay);  //
+
+            if ( jQuery('#img_fg7' ).length ) {
+                // Load new image, fade the old one, and swap IDs
+                var img = jQuery("<img id='img_bg7' />").attr('src', image_folder + image_url )
+                        .on('load', function() {
+                            if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                                console.error('broken image!'); // image did not load correctly!
+                            } else {
+                                // Image loaded successfully.
+                                jQuery('body').append( img ) ;                  // add new image to the DOM
+                                jQuery('#img_fg7').delay(delay*1000).fadeOut(1000, function () {   // fade out the foreground image
+                                    jQuery('#img_fg7').remove();                 // remove the foreground image from the DOM
+                                    jQuery('#img_bg7').attr('id','img_fg7') ;     // make the bg image the new fg image
+                                });
+                            }
+                        });
+            }
+
+            else {
+                // Just load an image.
+                var img = jQuery("<img id='img_fg7' />").attr('src', image_folder + image_url )
+                        .on('load', function() {
+                            if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                                console.error('broken image!'); // image did not load correctly!
+                            } else {
+                                // Image loaded successfully.
+                                jQuery('body').append( img );                   // add new image to the DOM
+                            }
+                        });
+
+            }
+
+
+        });
+
+        image_database.child( '8' ).on("value", function ( client_setting ) {
+            console.log( 'screen 8 changed.')
+            var image_url = client_setting.val().path ;
+            console.log("path: " + image_url);  //
+
+            var transition = client_setting.val().transition ;
+            console.log("transition: " + transition);  //
+
+            var delay = client_setting.val().delay ;
+            console.log("delay: " + delay);  //
+
+            if ( jQuery('#img_fg8' ).length ) {
+                // Load new image, fade the old one, and swap IDs
+                var img = jQuery("<img id='img_bg8' />").attr('src', image_folder + image_url )
+                        .on('load', function() {
+                            if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                                console.error('broken image!'); // image did not load correctly!
+                            } else {
+                                // Image loaded successfully.
+                                jQuery('body').append( img ) ;                  // add new image to the DOM
+                                jQuery('#img_fg8').delay(delay*1000).fadeOut(1000, function () {   // fade out the foreground image
+                                    jQuery('#img_fg8').remove();                 // remove the foreground image from the DOM
+                                    jQuery('#img_bg8').attr('id','img_fg8') ;     // make the bg image the new fg image
+                                });
+                            }
+                        });
+            }
+
+            else {
+                // Just load an image.
+                var img = jQuery("<img id='img_fg8' />").attr('src', image_folder + image_url )
+                        .on('load', function() {
+                            if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                                console.error('broken image!'); // image did not load correctly!
+                            } else {
+                                // Image loaded successfully.
+                                jQuery('body').append( img );                   // add new image to the DOM
+                            }
+                        });
+
+            }
+
+
+        });
+
+    </script>
+</head>
+<body>
+</body>
+</html>
