@@ -49,7 +49,7 @@ def get_random_images ( image_count, recent_db_images, filesystem_images ) :
 
         # TODO: add debugging info here
         # has it been seen recently? is it an image already in the hopper? is it a mural tile?
-        if not one_image in recent_db_images and not one_image in new_images and not one_image in mural_tiles and one_image != credits_tile and one_image != instructions_tile:
+        if not one_image in recent_db_images and not one_image in new_images and not one_image in mural_tiles and one_image != credits_tile and one_image != instructions_tile and one_image != '.DS_Store':
             # increment number of found images
             found_image_count += 1
             new_images.append ( one_image )
@@ -71,6 +71,7 @@ from random import choice # to choose a random item from a list
 import shelve # for pseudo-databases
 from random import choice # to choose a random item from a list
 from firebase import firebase
+import datetime
 
 ################################################################################
 ################################################################################
@@ -161,7 +162,7 @@ if mode == 'random':
         # add image to recently selected images
         recent_db_images.append ( new_unseen_images[image] )
 
-        recently_selected_imagery['images'] = recent_db_images
+    recently_selected_imagery['images'] = recent_db_images
 
 ################################################################################
 
@@ -179,8 +180,74 @@ if mode == 'mural':
         update_firebase ( fb_url, str(image), str(mural_tiles[image]) )
 
 ################################################################################
+if mode == 'menorah':
+    if debug:
+        print "menorah mode"
+
+    today = datetime.datetime.today()
+
+    # what day and hour is today?
+    # how many monitors should be "lit"?
+
+    number_of_day = today.day
+    hour_of_day = today.hour
+
+    if debug:
+        last_day_of_hanukkah = 11
+    else:
+        last_day_of_hanukkah = 13 # december 13... really the day of the 14th
+
+    # need to check the hour of the day as well.
+    # 16:30 - 23:59, 00:00 to 6:00
+
+    candles_to_light = 9
+
+    # subtract a day if we are between midnight and 6am
+    if hour_of_day >= 0 and hour_of_day <= 6:
+        offset = 1
+    else:
+        offset = 0
+
+    image_count_to_show = candles_to_light - ( last_day_of_hanukkah - number_of_day ) - offset
+
+    print "image_count_to_show:", image_count_to_show
+
+    new_unseen_images = get_random_images ( image_count_to_show, recent_db_images, filesystem_images )
+    shamash = new_unseen_images.pop()
+
+    print "new_unseen_images: ",new_unseen_images
+
+    for image in range ( len ( mural_tiles ) ) :
+        if ( candles_to_light - image - len(new_unseen_images) ) <= 0 :
+            image_to_show = new_unseen_images[candles_to_light - image - len(new_unseen_images)]
+        else:
+            image_to_show = mural_tiles[image]
+
+        # if it's the 5th candle, override the default
+        if image == 4:
+            image_to_show = shamash
+
+        if debug:
+            print "updating the firebase database: screen", str(image), "-", image_to_show
+        update_firebase ( fb_url, str(image), image_to_show )
+
+        # TODO: make this into a function, since it's repeated elsewhere.
+        # only track the most recent X images
+        if len ( recent_db_images ) == recent_imagery_db_limit :
+            # remove oldest record
+            if debug:
+                print "deleting oldest image from recently used list:", recent_db_images[0]
+            del ( recent_db_images[0] )
+
+        # add image to recently selected images
+        recent_db_images.append ( image_to_show )
+
+    recently_selected_imagery['images'] = recent_db_images
+
+
+################################################################################
 
 if debug:
-    print recently_selected_imagery['images'], "(" + str ( len ( recently_selected_imagery['images'] ) ) + ")"
+    print "recently_selected_imagery: ", recently_selected_imagery['images'], "(" + str ( len ( recently_selected_imagery['images'] ) ) + ")"
 recently_selected_imagery.close ( )
 
