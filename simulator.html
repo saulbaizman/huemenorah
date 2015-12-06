@@ -19,55 +19,55 @@ Two screen dimensions:
         img {
             width: 120px;
         }
-        #img_fg0, #img_bg0 {
+        #img_fg0, #img_bg0, #screen0 {
             position: fixed;
             top: 0 ;
             left: 0 ;
             /* height: 10%;*/
         }
-        #img_fg1,#img_bg1 {
+        #img_fg1, #img_bg1, #screen1 {
             position: fixed;
             top: 0 ;
             left: 121px ;
             /* height: 10%;*/
         }
-        #img_fg2, #img_bg2 {
+        #img_fg2, #img_bg2, #screen2 {
             position: fixed;
             top: 0 ;
             left: 242px ;
             /* height: 10%;*/
         }
-        #img_fg3, #img_bg3 {
+        #img_fg3, #img_bg3, #screen3 {
             position: fixed;
             top: 0 ;
             left: 363px ;
             /* height: 10%;*/
         }
-        #img_fg4, #img_bg4 {
+        #img_fg4, #img_bg4, #screen4 {
             position: fixed;
             top: 0 ;
             left: 484px ;
             /* height: 10%;*/
         }
-        #img_fg5, #img_bg5 {
+        #img_fg5, #img_bg5, #screen5 {
             position: fixed;
             top: 0 ;
             left: 605px ;
             /* height: 10%;*/
         }
-        #img_fg6, #img_bg6 {
+        #img_fg6, #img_bg6, #screen6 {
             position: fixed;
             top: 0 ;
             left: 726px ;
             /* height: 10%;*/
         }
-        #img_fg7, #img_bg7 {
+        #img_fg7, #img_bg7, #screen7 {
             position: fixed;
             top: 0 ;
             left: 847px ;
             /* height: 10%;*/
         }
-        #img_fg8, #img_bg8 {
+        #img_fg8, #img_bg8, #screen8 {
             position: fixed;
             top: 0 ;
             left: 968px ;
@@ -75,32 +75,37 @@ Two screen dimensions:
         }
 
 
-        #img_bg0 {
-            z-index: -1;
-        }
-        #img_bg1 {
-            z-index: -1;
-        }
-        #img_bg2 {
-            z-index: -1;
-        }
-        #img_bg3 {
-            z-index: -1;
-        }
-        #img_bg4 {
-            z-index: -1;
-        }
-        #img_bg5 {
-            z-index: -1;
-        }
-        #img_bg6 {
-            z-index: -1;
-        }
-        #img_bg7 {
-            z-index: -1;
-        }
+        #img_bg0,
+        #img_bg1,
+        #img_bg2,
+        #img_bg3,
+        #img_bg4,
+        #img_bg5,
+        #img_bg6,
+        #img_bg7,
         #img_bg8 {
             z-index: -1;
+        }
+
+        #screen0,
+        #screen1,
+        #screen2,
+        #screen3,
+        #screen4,
+        #screen5,
+        #screen6,
+        #screen7,
+        #screen8 {
+            z-index: 5 ;
+        }
+
+        .screen_label {
+            padding-top: 5px ;
+            padding-left: 10px ;
+            font-size: 3em ;
+            color: rgba(255,255,255,.8);
+            font-family: Helvetica;
+            font-weight: bold;
         }
 
 
@@ -535,5 +540,15 @@ Two screen dimensions:
     </script>
 </head>
 <body>
+<div id="screen0" class="screen_label">0</div>
+<div id="screen1" class="screen_label">1</div>
+<div id="screen2" class="screen_label">2</div>
+<div id="screen3" class="screen_label">3</div>
+<div id="screen4" class="screen_label">4</div>
+<div id="screen5" class="screen_label">5</div>
+<div id="screen6" class="screen_label">6</div>
+<div id="screen7" class="screen_label">7</div>
+<div id="screen8" class="screen_label">8</div>
+
 </body>
 </html>
