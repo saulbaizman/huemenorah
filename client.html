@@ -15,20 +15,46 @@ Two screen dimensions:
     <style type="text/css">
         body {
             margin: 0 ;
+            overflow: hidden;
         }
-        img {
-            position: fixed;
-            top: 0 ;
-            left: 0 ;
-            min-width: 100%;
-            min-height: 100%;        }
-        /*p {*/
-            /*margin-top: 500px ;*/
+        /*img {*/
+        /*position: fixed;*/
+        /*top: 0 ;*/
+        /*left: 0 ;*/
+        /*min-width: 100%;*/
+        /*min-height: 100%;*/
         /*}*/
+        /*
+        img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            min-width: 50%;
+            min-height: 50%;
+            height: auto !important;
+        }
+        */
+        img {
+            width: 100% ;
+        }
+        p {
+            margin-top: 500px ;
+        }
         #img_bg {
             z-index: -1;
         }
-
+        /*
+        #container {
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+        }
+        */
     </style>
 
     <!-- load Firebase library -->
