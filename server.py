@@ -162,7 +162,7 @@ if mode == 'random':
         # add image to recently selected images
         recent_db_images.append ( new_unseen_images[image] )
 
-    recently_selected_imagery['images'] = recent_db_images
+        recently_selected_imagery['images'] = recent_db_images
 
 ################################################################################
 
@@ -242,7 +242,7 @@ if mode == 'menorah':
         # add image to recently selected images
         recent_db_images.append ( image_to_show )
 
-    recently_selected_imagery['images'] = recent_db_images
+        recently_selected_imagery['images'] = recent_db_images
 
 
 ################################################################################
