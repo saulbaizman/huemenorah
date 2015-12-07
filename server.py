@@ -247,6 +247,91 @@ if mode == 'menorah':
 
 ################################################################################
 
+if mode == 'credits':
+    if debug:
+        print "credits mode"
+
+    random_image_count = 6
+    new_unseen_images = get_random_images ( random_image_count, recent_db_images, filesystem_images )
+
+    print "new_unseen_images:", new_unseen_images, "(", str(len(new_unseen_images)), ")"
+
+    screen_count = 9
+    counter = 0 # to keep track of the random images
+
+    for screen in range ( screen_count ) :
+        print "screen",screen
+        if screen is 0 or screen is 4 or screen is 8:
+            image_to_show = credits_tile
+        else:
+            image_to_show = new_unseen_images[counter]
+            counter = counter+1
+
+        if debug:
+            #print "image_to_show:",image_to_show
+            print "updating the firebase database: screen", str(screen), "-", image_to_show
+        update_firebase ( fb_url, str(screen), image_to_show )
+
+        # TODO: make this into a function, since it's repeated elsewhere.
+        # only track the most recent X images
+        if image_to_show != instructions_tile:
+            if len ( recent_db_images ) == recent_imagery_db_limit :
+                # remove oldest record
+                if debug:
+                    print "deleting oldest image from recently used list:", recent_db_images[0]
+                del ( recent_db_images[0] )
+
+            # add image to recently selected images
+            recent_db_images.append ( image_to_show )
+
+            recently_selected_imagery['images'] = recent_db_images
+
+
+################################################################################
+
+if mode == 'instructions':
+    if debug:
+        print "instructions mode"
+
+    random_image_count = 6
+    new_unseen_images = get_random_images ( random_image_count, recent_db_images, filesystem_images )
+
+    print "new_unseen_images:", new_unseen_images, "(", str(len(new_unseen_images)), ")"
+
+    screen_count = 9
+    counter = 0 # to keep track of the random images
+
+    for screen in range ( screen_count ) :
+        print "screen",screen
+        if screen is 0 or screen is 4 or screen is 8:
+            image_to_show = instructions_tile
+        else:
+            image_to_show = new_unseen_images[counter]
+            counter = counter+1
+
+        if debug:
+            #print "image_to_show:",image_to_show
+            print "updating the firebase database: screen", str(screen), "-", image_to_show
+        update_firebase ( fb_url, str(screen), image_to_show )
+
+        # TODO: make this into a function, since it's repeated elsewhere.
+        # only track the most recent X images
+        if image_to_show != instructions_tile:
+            if len ( recent_db_images ) == recent_imagery_db_limit :
+                # remove oldest record
+                if debug:
+                    print "deleting oldest image from recently used list:", recent_db_images[0]
+                del ( recent_db_images[0] )
+
+            # add image to recently selected images
+            recent_db_images.append ( image_to_show )
+
+            recently_selected_imagery['images'] = recent_db_images
+
+
+################################################################################
+
+
 if debug:
     print "recently_selected_imagery: ", recently_selected_imagery['images'], "(" + str ( len ( recently_selected_imagery['images'] ) ) + ")"
 recently_selected_imagery.close ( )
